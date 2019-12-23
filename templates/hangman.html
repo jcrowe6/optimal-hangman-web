@@ -3,7 +3,46 @@
 	<head>
 		<title>Hangman Helper</title>
 	</head>
+	<style>
+		#add {
+			background-color: #4CAF50; /* Green */
+			border: none;
+			color: white;
+			padding: 25px 25px;
+			padding-top: 5px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 40px;
+		}
+		.input-row {
+			display: flex;
+		}
+		input {
+			width: 70px;
+			height: 70px;
+			text-align: center;
+			text-transform: uppercase;
+			font-size: 40px;
+		}
+	</style>
 	<body>
-		<p>More to come soon</p>
+		<div class='input-row'>
+			<button id='add' onclick="add()">+</button>
+			<table id='word'>
+				<tr id='row'>
+
+				</tr>
+			</table>
+		</div>
+
+		<script>
+			function add() {
+				var inputnode = document.createElement("input");
+				inputnode.setAttribute("type", "text");
+				inputnode.setAttribute("maxlength", "1");
+				document.getElementById("row").appendChild(inputnode);
+			}
+		</script>
 	</body>
 </html>
