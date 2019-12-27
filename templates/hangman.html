@@ -18,6 +18,9 @@
 		.input-row {
 			display: flex;
 		}
+		p {
+			font-family:'Courier New', Courier, monospace;
+		}
 		input {
 			width: 70px;
 			height: 70px;
@@ -27,6 +30,7 @@
 		}
 	</style>
 	<body>
+		<p id='above-text'>Press the plus to add letter blanks!</p>
 		<div class='input-row'>
 			<button id='add' onclick="add()">+</button>
 			<table id='word'>
@@ -35,12 +39,26 @@
 				</tr>
 			</table>
 		</div>
-
+		<p id='below'>This is some text!</p>
 		<script>
+			var number = 0;
 			function add() {
-				var inputnode = document.createElement("input");
+				document.getElementById("above-text").innerHTML = "Place letters to get better predictions!"
+				var inputnode = document.createElement("input"); // creating new input box with useful attributes  
 				inputnode.setAttribute("type", "text");
-				inputnode.setAttribute("maxlength", "1");
+				inputnode.setAttribute("maxlength", "1");	
+				inputnode.setAttribute("id", number);
+				number++;	//iterates so we know how big the word is
+				inputnode.addEventListener("keydown", function(e){ // sets event listener for any keypress
+					// TODO: input sanitizing
+					// (code currently runs even on Shift, Backspace etc. or even if theres already a letter there)
+					// also actually implement the python call to figure out the new list of letters and words
+					// then place them in a nice pretty way
+					// maybe figure out how to have a loading overlay appear too
+					var key = e.key;
+					var index = document.activeElement.id
+					document.getElementById("below").innerHTML = index + " " + key;
+				});
 				document.getElementById("row").appendChild(inputnode);
 			}
 		</script>
