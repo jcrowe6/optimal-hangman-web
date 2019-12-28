@@ -65,6 +65,11 @@
 			function ajax() {
 				const http = new XMLHttpRequest();
 				const url = "http://jcrowell.net/hangman/word";
+				http.open("GET", url);
+				http.send();
+				http.onreadystatechange=(e)=>{
+					console.log(http.responseText);
+				}
 			}
 		</script>
 	</body>
