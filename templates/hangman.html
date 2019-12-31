@@ -69,8 +69,9 @@
 				http.open("GET", url);
 				http.send();
 				http.onreadystatechange=(e)=>{
-					response = http.responseText;
-					document.getElementById("response").innerHTML = response;
+					responseObj = JSON.parse(http.responseText);
+					document.getElementById("response").innerHTML = responseObj.thing.one;
+
 				}
 			}
 		</script>
