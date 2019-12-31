@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+import json
 app = Flask(__name__)
 
 @app.route('/main')
@@ -12,7 +13,10 @@ if __name__ == '__main__':
 # right now just testing
 @app.route('/word')
 def createSuggestions():
-    return "helloooo"
+    toReturn = {}
+    toReturn['key'] = 10000
+    toReturn['thing'] = {'one':'two','three':4}
+    return json.dumps(toReturn)
 
 # to refactor this:
 # take the existing hangman script and streamline it

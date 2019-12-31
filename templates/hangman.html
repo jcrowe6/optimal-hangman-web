@@ -41,6 +41,7 @@
 		</div>
 		<p id='below'>This is some text!</p>
 		<button id='test' onclick="ajax()">Send that request!</button>
+		<p id='response'>Response will go here!</p>
 		<script>
 			var number = 0;
 			function add() {
@@ -68,7 +69,8 @@
 				http.open("GET", url);
 				http.send();
 				http.onreadystatechange=(e)=>{
-					console.log(http.responseText);
+					response = http.responseText;
+					document.getElementById("response").innerHTML = response;
 				}
 			}
 		</script>
