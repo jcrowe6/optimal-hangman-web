@@ -28,6 +28,28 @@
 			text-transform: uppercase;
 			font-size: 40px;
 		}
+		#suggestions {
+			font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+			border-collapse: collapse;
+			table-layout: fixed;
+			width: 100%;
+		}
+
+		#suggestions td, #suggestions th {
+			border: 1px solid #ddd;
+			padding: 8px;
+		}
+
+		#suggestions tr:nth-child(even){background-color: #f2f2f2;}
+
+		#suggestions td:hover {background-color: #ddd;}
+
+		#suggestions th {
+			padding-top: 12px;
+			padding-bottom: 12px;
+			background-color: #3385ff;
+			color: white;
+		}
 	</style>
 	<body>
 		<p id='above-text'>Press the plus to add letter blanks!</p>
@@ -35,13 +57,25 @@
 			<button id='add' onclick="add()">+</button>
 			<table id='word'>
 				<tr id='row'>
-
 				</tr>
 			</table>
 		</div>
 		<p id='below'>This is some text!</p>
 		<button id='test' onclick="ajax()">Send that request!</button>
-		<p id='response'>Response will go here!</p>
+		<table id="suggestions">
+			<tr>
+			  <th>Letters</th>
+			  <th>Words</th>
+			</tr>
+			<tr>
+				<td>E</td>
+				<td>Alxotl</td>
+			</tr>
+			<tr>
+				<td>A</td>
+				<td>Pentagonal</td>
+			</tr>
+		</table>
 		<script>
 			var number = 0;
 			function add() {
@@ -69,9 +103,9 @@
 				http.open("GET", url);
 				http.send();
 				http.onreadystatechange=(e)=>{
-					responseObj = JSON.parse(http.responseText);
-					document.getElementById("response").innerHTML = responseObj.thing.one;
-
+					response = JSON.parse(http.responseText);
+					//document.getElementById("response").innerHTML = response;
+					console.log(response.key);
 				}
 			}
 		</script>
