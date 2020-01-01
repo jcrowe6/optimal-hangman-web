@@ -1,5 +1,7 @@
 from flask import Flask, render_template
 import json
+from datetime import datetime
+import time
 app = Flask(__name__)
 
 @app.route('/main')
@@ -11,11 +13,14 @@ if __name__ == '__main__':
 
 # should take the current word in some format and return the new list of words in some format
 # right now just testing
+# Note: if /word is requested again before the first is finished processing, it will get to work on processing again
+# immediately
 @app.route('/word')
 def createSuggestions():
     toReturn = {}
-    toReturn['key'] = 10000
-    toReturn['thing'] = {'one':'two','three':4}
+    now = datetime.now()
+    toReturn['letters'] = ['A','E','B','K','C']
+    toReturn['words'] = ['apple','change','chains','yellow',str(now)]
     return json.dumps(toReturn)
 
 # to refactor this:
