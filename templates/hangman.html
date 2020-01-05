@@ -60,8 +60,7 @@
 				</tr>
 			</table>
 		</div>
-		<p id='below'>The most likely letters and possible words appear below!</p>
-		<button onclick="get()">Get da word</button>
+		<p>The most likely letters and possible words appear below!</p>
 		<button id='test' onclick="ajax()">Send that request!</button>
 		<table id="suggestions">
 			<tr>
@@ -86,7 +85,6 @@
 					// maybe figure out how to have a loading overlay appear too
 					var key = e.key;
 					var index = document.activeElement.id
-					document.getElementById("below").innerHTML = index + " " + key;
 				});
 				document.getElementById("row").appendChild(inputnode);
 			}
@@ -100,7 +98,6 @@
 					}
 					word += val;
 				}
-				document.getElementById("below").innerHTML = word;
 				return word;
 			}
 			function ajax() {

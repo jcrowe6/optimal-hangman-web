@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 import json
 from datetime import datetime
 import time
+import collections
 app = Flask(__name__)
 
 @app.route('/main')
@@ -45,11 +46,12 @@ def getSuggestions(word):
                     continue
             maybewords.append(maybeword)
     #TODO: analyze letter freqs
+    bestletters = bestLetters(maybewords)
 
     maybelen = len(maybewords)
     #ensure list of words is 10 long
     if maybelen > 10:
-        temp = []
+        temp = ['p','l','a','c','e','h','o','l','d','r']
         for i in range(10):
             temp[i] = maybewords[i]
         maybewords = temp
@@ -57,7 +59,7 @@ def getSuggestions(word):
         diff = 10 - maybelen
         for i in range(diff):
             maybewords.append('')
-    toReturn['letters'] = ['A','B','C','D','E','F','G','H','I','J']
+    toReturn['letters'] = bestletters
     toReturn['words'] = maybewords
     log.close()
     return toReturn
@@ -70,6 +72,17 @@ def possible(word, maybeword, length, log):
         elif maybeword[i] != word[i]:
             return False
     return True
+
+def bestLetters(words):
+    letters = []
+    for word in words:
+        for char in word:
+            letters.append(char)
+    c = collections.Counter(letters)
+    toReturn = []
+    for letter in c.most_common(10):
+        toReturn.append(letter[0])
+    return toReturn
 # to refactor this:
 # take the existing hangman script and streamline it
 # 2 approaches:
