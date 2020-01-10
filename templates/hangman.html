@@ -15,11 +15,23 @@
 			display: inline-block;
 			font-size: 40px;
 		}
+		#send {
+			background-color: #3385ff; /* Blue */
+			border: none;
+			color: white;
+			padding: 10px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+			font-size: 20px;
+		}
 		.input-row {
 			display: flex;
 		}
 		p {
-			font-family:'Courier New', Courier, monospace;
+			/* font-family:'Courier New', Courier, monospace; */
+			font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 		}
 		input {
 			width: 70px;
@@ -60,8 +72,8 @@
 				</tr>
 			</table>
 		</div>
-		<p>The most likely letters and possible words appear below!</p>
-		<button id='test' onclick="ajax()">Send that request!</button>
+		<p>The most likely letters and possible words appear below.</p>
+		<button id='send' onclick="ajax()">Update</button>
 		<table id="suggestions">
 			<tr>
 			  <th>Letters</th>
