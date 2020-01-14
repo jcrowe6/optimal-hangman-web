@@ -32,11 +32,11 @@ def getSuggestions(word):
     # check: length first, then each KNOWN letter to check that it matches, otherwise, do not append it to the return list
     # then analyze that list for possible letters
     log = open('/home/ubuntu/projects/hangman_webapp/log.txt', 'a')
-    log.write(word+'==================\n')
+    log.write('======== '+word+' ========\n')
     toReturn = {'letters':[],'words':[]}
     maybewords = []
     length = len(word)
-    with open('/home/ubuntu/projects/hangman_webapp/words_med.txt') as f:
+    with open('/home/ubuntu/projects/hangman_webapp/words_big.txt') as f:
         allWords = f.read().splitlines()
         for maybeword in allWords:
             if len(maybeword) != length:
@@ -45,8 +45,8 @@ def getSuggestions(word):
                 if not possible(word, maybeword, length, log):
                     continue
             maybewords.append(maybeword)
-    #TODO: analyze letter freqs
-    bestletters = bestLetters(maybewords)
+    # Returns lis
+    bestletters = bestLetters(maybewords, word, log)
 
     maybelen = len(maybewords)
     #ensure list of words is 10 long
@@ -65,23 +65,44 @@ def getSuggestions(word):
     return toReturn
 
 def possible(word, maybeword, length, log):
-    log.write(word + ' ' + maybeword + ' ' + str(length) + '\n')
+    # log.write(word + ' ' + maybeword + ' ' + str(length) + '\n')
     for i in range(length):
         if word[i] == '_':
-            pass
+            #pass
+            if maybeword[i] in word:
+                return False
         elif maybeword[i] != word[i]:
             return False
     return True
 
-def bestLetters(words):
-    letters = []
-    for word in words:
-        for char in word:
-            letters.append(char)
-    c = collections.Counter(letters)
+def bestLetters(words, word, log):
+    letters = {}
+    for aWord in words:
+        put = []
+        for char in aWord:
+            if char not in put:
+                if char in letters:
+                    letters[char] += 1
+                else:
+                    letters[char] = 1
+    # Sorts by value and reverses (so most common occurences appear first)
+    full = sorted(letters, key=letters.get)[::-1]
+    log.write(str(full)+'\n')
+    # Should remove occurences of letters that are already known (broken)
+    for i in range(len(full) - 1, -1, -1):
+        log.write(full[i]+'\n')
+        if full[i] in word:
+            log.write("  "+word+'\n')
+            full.remove(full[i])
+
+    # ensures length is 10 and returns
     toReturn = []
-    for letter in c.most_common(10):
-        toReturn.append(letter[0])
+    lenfull = len(full)
+    if lenfull > 10:
+        for i in range(10):
+            toReturn.append(full[i])
+    elif lenfull <= 10:
+        toReturn = full
     return toReturn
 # to refactor this:
 # take the existing hangman script and streamline it
