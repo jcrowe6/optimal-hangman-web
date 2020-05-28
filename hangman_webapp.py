@@ -12,25 +12,14 @@ def hello_world():
 if __name__ == '__main__':
     app.run(debug=True)
 
-# should take the current word in some format and return the new list of words in some format
-# right now just testing
-# Note: if /word is requested again before the first is finished processing, it will get to work on processing again
-# immediately
 @app.route('/word')
 def wordRoute():
     qstring = request.args.get('word', '')
     word = qstring.lower()
-    # DUMMY DATA
-    #now = datetime.now()
-    #toReturn['letters'] = ['A','E','B','K','C']
-    #toReturn['words'] = ['apple','change','chains',str(word),str(now)]
     toReturn = getSuggestions(word)
     return json.dumps(toReturn)
 
 def getSuggestions(word):
-    # Should basically take list of words and iterate through it, checking whether it could match the current word
-    # check: length first, then each KNOWN letter to check that it matches, otherwise, do not append it to the return list
-    # then analyze that list for possible letters
     log = open('/home/ubuntu/projects/hangman_webapp/log.txt', 'a')
     log.write('======== '+word+' ========\n')
     toReturn = {'letters':[],'words':[]}
@@ -65,7 +54,6 @@ def getSuggestions(word):
     return toReturn
 
 def possible(word, maybeword, length, log):
-    # log.write(word + ' ' + maybeword + ' ' + str(length) + '\n')
     for i in range(length):
         if word[i] == '_':
             #pass
@@ -87,10 +75,9 @@ def bestLetters(words, word, log):
                     letters[char] = 1
     # Sorts by value and reverses (so most common occurences appear first)
     full = sorted(letters, key=letters.get)[::-1]
-    log.write(str(full)+'\n')
+
     # Should remove occurences of letters that are already known (broken)
     for i in range(len(full) - 1, -1, -1):
-        log.write(full[i]+'\n')
         if full[i] in word:
             log.write("  "+word+'\n')
             full.remove(full[i])
@@ -104,12 +91,3 @@ def bestLetters(words, word, log):
     elif lenfull <= 10:
         toReturn = full
     return toReturn
-# to refactor this:
-# take the existing hangman script and streamline it
-# 2 approaches:
-#   make one route/function that will take full word state and return list of letters/words
-#       this will require running through whole list of words every new letter (may be slow)
-#   use some sort of caching either in browser or in the server so that each session uses one list that shrinks
-#   over the course of using it
-#       more optimal but more difficult...
-# for now let's just make number 1
